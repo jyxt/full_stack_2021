@@ -1,11 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
-
+from flask_basicauth import BasicAuth
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+app.config['BASIC_AUTH_USERNAME'] = 'john'
+app.config['BASIC_AUTH_PASSWORD'] = 'matrix'
+
 db = SQLAlchemy(app)
+basic_auth = BasicAuth(app)
+
 
 class BlogPost(db.Model):
     __tablename__ = 'posts'
@@ -31,6 +36,7 @@ def post(post_id):
     return render_template('post.html', post=post)
 
 @app.route('/add', methods=['GET', 'POST'])
+@basic_auth.required
 def add():
     if request.method == 'POST':
         title = request.form['title']
