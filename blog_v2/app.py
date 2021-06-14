@@ -5,6 +5,7 @@ from flask_basicauth import BasicAuth
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['BASIC_AUTH_USERNAME'] = 'john'
 app.config['BASIC_AUTH_PASSWORD'] = 'matrix'
 
